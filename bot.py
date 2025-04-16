@@ -1,6 +1,7 @@
 import asyncio
 import logging
 import os
+from datetime import datetime
 
 import requests
 from aiogram import Bot, Dispatcher, F
@@ -80,9 +81,14 @@ async def get_exchange_rate(message: Message):
 
         result = data['conversion_result']
         last_updated = data.get('time_last_update_utc')
+        try:
+            last_updated_dt = datetime.strptime(last_updated, "%a, %d %b %Y %H:%M:%S %z")
+            formatted_time = last_updated_dt.strftime("%d %B %Y, %H:%M %Z")
+        except Exception:
+            formatted_time = last_updated  # если парсинг не удался — просто выводим оригинал
         await message.answer(
             f"✅ <b>{amount} {from_currency}</b> = <b>{result} {to_currency}</b>\n"
-            f"🕓 Last updated: {last_updated}"
+            f"🕓 <b>Latest currency updates:</b> {formatted_time}"
         )
 
     except ValueError:
