@@ -80,11 +80,11 @@ async def get_exchange_rate(message: Message):
 
         result = data['conversion_result']
         await message.answer(
-            f"✅ <b>{amount} {from_currency}</b> 🟰 <b>{result} {to_currency}</b>\n"
+            f"✅ <b>{amount} {from_currency}</b> ↔️ <b>{result} {to_currency}</b>\n"
         )
 
     except ValueError:
-        await message.answer("❗ Please make sure the amount is a number. Example: <b>100 USD to EUR</b>")
+        await message.answer("❌ Please make sure the amount is a number. Example: <b>100 USD to EUR</b>")
     except Exception as e:
         print(f"Exception occurred: {e}")
         logging.exception("Unexpected error occurred:")
