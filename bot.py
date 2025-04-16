@@ -55,8 +55,8 @@ currency_translations = {
 @dp.message(CommandStart())
 async def start(message: Message):
     currency_list = "\n".join([f"{key} - {value}" for key, value in currency_translations.items()])
-    await message.answer(f"👋 Hello, {message.from_user.full_name}!")
-    await message.answer("Send me a currency pair (e.g., '100 USD to EUR') and I'll return the exchange rate! 💱")
+    await message.answer(f"👋🏼 Hello, {message.from_user.full_name}!")
+    await message.answer("Send me a currency pair (e.g., '100 USD to EUR') and I'll return the exchange rate! 🔄")
     await message.answer(f"Here are some popular currencies:\n\n{currency_list}")
 
 
@@ -68,11 +68,11 @@ async def help_command(message: Message):
 @dp.message(F.text)
 async def get_exchange_rate(message: Message):
     try:
-        # Получаем текст с валютами
+        # Get text from message
         text = message.text.strip()
         parts = text.split()
 
-        if len(parts) != 4 or parts[2].lower() != "to":
+        if len(parts) != 4 or parts[2].lower() != "to" or parts[2].lower() != "TO":
             await message.answer(
                 "⚠️ Please use the format 'amount from_currency to to_currency'. For example: '100 USD to EUR'.")
             return
@@ -81,7 +81,7 @@ async def get_exchange_rate(message: Message):
         from_currency = parts[1].upper()
         to_currency = parts[3].upper()
 
-        # Используем бесплатный API для получения курса валют
+        # Using API to get exchange rate
         url = f"https://v6.exchangerate-api.com/v6/{EXCHANGE_API_KEY}/pair/{from_currency}/{to_currency}/{amount}"
         response = requests.get(url)
         data = response.json()
@@ -90,16 +90,16 @@ async def get_exchange_rate(message: Message):
             await message.answer("⚠️ Could not fetch the exchange rate. Please try again.")
             return
 
-        # Отправляем результат
+        # Send response
         conversion_result = data['conversion_result']
-        await message.answer(f"💱 {amount} {from_currency} is equal to {conversion_result} {to_currency}.")
+        await message.answer(f"🔄 {amount} {from_currency} ➡️ {conversion_result} {to_currency}.")
     except Exception as e:
         print("Error:", e)
         await message.answer("⚠️ An error occurred. Please try again.")
 
 
 async def main():
-    print("💱 Currency bot is running...")
+    print("🔄 Currency bot is running...")
     await dp.start_polling(bot)
 
 
