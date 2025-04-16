@@ -80,8 +80,7 @@ async def get_exchange_rate(message: Message):
 
         result = data['conversion_result']
         await message.answer(
-            f"✅ <b>{amount} {from_currency}</b> = <b>{result} {to_currency}</b>\n"
-            f"🌍 Exchange rate provided by ExchangeRate-API."
+            f"✅ <b>{amount} {from_currency}</b> 🟰 <b>{result} {to_currency}</b>\n"
         )
 
     except ValueError:
