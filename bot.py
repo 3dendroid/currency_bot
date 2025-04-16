@@ -14,7 +14,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Logging
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.DEBUG)
 
 # Tokens
 BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
@@ -43,7 +43,7 @@ currency_translations = {
 async def start(message: Message):
     currency_list = "\n".join([f"🔹 <b>{key}</b> - {value}" for key, value in currency_translations.items()])
     await message.answer(f"👋🏼 Hello, <b>{message.from_user.full_name}</b>!")
-    await message.answer("💱 Send me a currency pair like <b>100 USD to EUR</b>, and I’ll give you the exchange rate!")
+    await message.answer("🚀 Send me a currency pair like <b>100 USD to EUR</b>, and I’ll give you the exchange rate!")
     await message.answer(f"Here are some popular currencies you can use:\n\n{currency_list}")
 
 
@@ -87,6 +87,7 @@ async def get_exchange_rate(message: Message):
     except ValueError:
         await message.answer("❗ Please make sure the amount is a number. Example: <b>100 USD to EUR</b>")
     except Exception as e:
+        print(f"Exception occurred: {e}")
         logging.exception("Unexpected error occurred:")
         await message.answer("🚨 An unexpected error occurred. Please try again later.")
 
