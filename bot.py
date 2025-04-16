@@ -79,8 +79,10 @@ async def get_exchange_rate(message: Message):
             return
 
         result = data['conversion_result']
+        last_updated = data.get('time_last_update_utc')
         await message.answer(
-            f"✅ <b>{amount} {from_currency}</b> 🟰 <b>{result} {to_currency}</b>\n"
+            f"✅ <b>{amount} {from_currency}</b> = <b>{result} {to_currency}</b>\n"
+            f"🕓 Last updated: {last_updated}"
         )
 
     except ValueError:
